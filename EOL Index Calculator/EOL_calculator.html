@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ease of Living Index (EoI) Calculator</title>
+    <style>
+        /* Basic styling */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+
+        header {
+            background-color: #0047ab;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-around;
+            background-color: #003b93;
+            padding: 0.5rem;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        .container {
+            padding: 2rem;
+        }
+
+        .hero {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            color: #333;
+        }
+
+        .button {
+            display: inline-block;
+            background-color: #0047ab;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 5px;
+            text-decoration: none;
+            margin: 1rem 0;
+        }
+
+        .button:hover {
+            background-color: #003b93;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+        }
+
+        .feature {
+            background-color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature h3 {
+            color: #0047ab;
+        }
+
+        .calculator, .graph {
+            background-color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-top: 2rem;
+        }
+
+        .calculator h2, .graph h2 {
+            color: #0047ab;
+        }
+
+        .calculator label {
+            display: block;
+            margin-top: 1rem;
+            font-weight: bold;
+        }
+
+        .calculator input {
+            width: 100%;
+            padding: 0.5rem;
+            margin-top: 0.5rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .calculator button {
+            background-color: #0047ab;
+            color: white;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 5px;
+            margin-top: 1rem;
+            cursor: pointer;
+        }
+
+        .calculator button:hover {
+            background-color: #003b93;
+        }
+
+        .result {
+            margin-top: 1rem;
+            font-weight: bold;
+            color: #333;
+        }
+
+        footer {
+            background-color: #003b93;
+            color: white;
+            text-align: center;
+            padding: 1rem;
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Ease of Living Index Calculator</h1>
+    </header>
+    <nav>
+        <a href="#calculate">Calculate EoI</a>
+        <a href="#compare">Compare Cities</a>
+        <a href="#trends">Trends</a>
+        <a href="#about">About Us</a>
+    </nav>
+
+    <div class="container">
+        <!-- Hero Section -->
+        <div class="hero">
+            <h1>Discover the Best Places to Live</h1>
+            <p>Use our advanced tools to evaluate and compare cities based on quality-of-life metrics.</p>
+            <a class="button" href="#calculate">Get Started</a>
+        </div>
+
+        <!-- Features Section -->
+        <div class="features">
+            <div class="feature">
+                <h3>Real-Time Calculations</h3>
+                <p>Calculate the Ease of Living Index instantly with up-to-date data on transportation, healthcare, and more.</p>
+            </div>
+
+            <div class="feature">
+                <h3>City Comparisons</h3>
+                <p>Compare multiple cities side-by-side to find the best place for your needs.</p>
+            </div>
+
+            <div class="feature">
+                <h3>Trends and Predictions</h3>
+                <p>Explore historical and predictive trends to make informed decisions about where to live or invest.</p>
+            </div>
+
+            <div class="feature">
+                <h3>User-Friendly Interface</h3>
+                <p>An intuitive design that makes exploring data and insights seamless and enjoyable.</p>
+            </div>
+        </div>
+
+        <!-- Calculator Section -->
+        <div id="calculate" class="calculator">
+            <h2>Calculate Ease of Living Index</h2>
+            <form id="eoiForm">
+                <label for="transportation">Transportation (out of 100):</label>
+                <input type="number" id="transportation" name="transportation" min="0" max="100" required>
+
+                <label for="healthcare">Healthcare (out of 100):</label>
+                <input type="number" id="healthcare" name="healthcare" min="0" max="100" required>
+
+                <label for="education">Education (out of 100):</label>
+                <input type="number" id="education" name="education" min="0" max="100" required>
+
+                <label for="safety">Safety (out of 100):</label>
+                <input type="number" id="safety" name="safety" min="0" max="100" required>
+
+                <button type="button" onclick="calculateEOI()">Calculate</button>
+            </form>
+            <div id="result" class="result"></div>
+        </div>
+
+        <!-- Graph Section -->
+        <div id="trends" class="graph">
+            <h2>Ease of Living Trends</h2>
+            <p>Graphical representation of historical and predictive trends will be displayed here.</p>
+            <canvas id="eoiChart" width="400" height="200"></canvas>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Ease of Living Index. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        function calculateEOI() {
+            const transportation = parseFloat(document.getElementById('transportation').value) || 0;
+            const healthcare = parseFloat(document.getElementById('healthcare').value) || 0;
+            const education = parseFloat(document.getElementById('education').value) || 0;
+            const safety = parseFloat(document.getElementById('safety').value) || 0;
+
+            const eoi = ((transportation + healthcare + education + safety) / 4).toFixed(2);
+
+            document.getElementById('result').innerText = `Your Ease of Living Index score is: ${eoi}`;
+        }
+
+        // Placeholder for graph functionality
+        // Add your graph implementation here using libraries like Chart.js
+    </script>
+</body>
+</html>
